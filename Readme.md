@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Nataliia Sergieieva](https://up.htmlacademy.ru/javascript/12/user/42348).
-* Наставник: `Неизвестно`.
+* Наставник: `Сергей Рубец`.
 
 ---
 
