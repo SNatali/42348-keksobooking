@@ -45,7 +45,7 @@ var generateObject = function (i) {
     },
     offer: {
       title: titles[i],
-      address: +locationX + ', ' + locationY,
+      address: locationX + ', ' + locationY,
       price: getRandomValue(MIN_PRICE, MAX_PRICE),
       type: typeOfRooms[getRandomValue(0, typeOfRooms.length)],
       rooms: getRandomValue(MIN_ROOMS, MAX_ROOMS),
