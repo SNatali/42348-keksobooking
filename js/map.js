@@ -76,7 +76,6 @@ var getOffers = function () { // генерируем массив
 var data = getOffers();
 
 var map = document.querySelector('template').content;
-
 var buttonTempale = map.querySelector('.map__pin');
 var pinsElement = document.querySelector('.map__pins');
 var mapCard = map.querySelector('.map__card');
@@ -131,3 +130,23 @@ var renderMapCard = function (index) {
 };
 
 renderMapCard(5);
+
+
+//вернуть страницу в исходное состояние
+
+var mapMain = document.querySelector('.map');
+mapMain.classList.add('map--fade');
+
+//поля формы должны быть неактивны в исходном состоянии
+var form = document.querySelector('.notice__form');
+form.classList.add('notice__form--disabled');
+
+//Перетаскивание метки
+var startPin = document.querySelector('.map__pin--main');
+
+startPin.addEventListener('mouseup', function()) {
+  form.classList.remove('notice__form--disabled');
+}
+
+
+
