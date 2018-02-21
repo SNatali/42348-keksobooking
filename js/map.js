@@ -79,6 +79,7 @@ var map = document.querySelector('template').content;
 var buttonTempale = map.querySelector('.map__pin');
 var pinsElement = document.querySelector('.map__pins');
 var mapCard = map.querySelector('.map__card');
+var clonedMapCard = mapCard.cloneNode(true);
 
 var renderPinsToMap = function () {
   var pinsFragment = document.createDocumentFragment();
@@ -92,10 +93,12 @@ var renderPinsToMap = function () {
   }
   pinsElement.appendChild(pinsFragment);
 };
-renderPinsToMap();
 
 var renderMapCard = function (index) {
-  var clonedMapCard = mapCard.cloneNode(true);
+  var popup = map.querySelector('.popup');
+  if (popup) {
+    map.removeChild(popup);
+  }
   var offerData = data[index];
 
   var title = clonedMapCard.querySelector('h3');
@@ -110,43 +113,69 @@ var renderMapCard = function (index) {
   var typeofFlat = clonedMapCard.querySelector('h4');
   typeofFlat.textContent = offerData.offer.type;
 
-  var room = clonedMapCard.querySelector('p')[2];
+  var room = clonedMapCard.querySelectorAll('p')[2];
   room.textContent = offerData.offer.rooms + 'комнаты для' + offerData.offer.guests + 'гостей';
 
-  var checkInOut = clonedMapCard.querySelector('p')[3];
+  var checkInOut = clonedMapCard.querySelectorAll('p')[3];
   checkInOut.textContent = 'Заезд после' + offerData.offer.checkin + ', выезд до' + offerData.offer.checkout;
 
   var popupFeatures = clonedMapCard.querySelector('.popup__features');
   var popupFeaturesLi = popupFeatures.querySelectorAll('li');
   popupFeaturesLi.textContent = offerData.offer.features;
 
-  var description = clonedMapCard.querySelector('p')[4];
+  var description = clonedMapCard.querySelectorAll('p')[4];
   description.textContent = offerData.offer.description;
 
-  var pictures = clonedMapCard.querySelector('popup__pictures');
+  var pictures = clonedMapCard.querySelector('.popup__pictures');
   var pictutesItem = pictures.querySelector('img');
-
   pictutesItem.src = offerData.offer.photos;
 };
 
 renderMapCard(5);
 
+var mainMap = document.querySelector('.map');
+mainMap.appendChild(clonedMapCard);
 
-//вернуть страницу в исходное состояние
+
+//  вернуть страницу в исходное состояние
 
 var mapMain = document.querySelector('.map');
-mapMain.classList.add('map--fade');
+mapMain.classList.add('map--faded');
 
-//поля формы должны быть неактивны в исходном состоянии
+// поля формы должны быть неактивны в исходном состоянии
+
 var form = document.querySelector('.notice__form');
 form.classList.add('notice__form--disabled');
 
-//Перетаскивание метки
+// Заполнение поля адресса
+
+var adressField = document.querySelector('#address');
+adressField.value = '900 ,500';
+
+// Перетаскивание метки
+
 var startPin = document.querySelector('.map__pin--main');
-
-startPin.addEventListener('mouseup', function()) {
+startPin.addEventListener('mouseup', function () {
   form.classList.remove('notice__form--disabled');
-}
+  return renderPinsToMap();
+});
 
 
+var getIndexOfElement = function (elements, element) {
+  for (var i = 1; i < elements.length; i++) {
+    if (elements[i] === element) {
+      return i;
+    }
+  }
+};
+//  Добавляет обработчик на метки карты
 
+pinsElement.addEventListener('click', function (evt) {
+  var target = evt.target;
+  if (target.tagName === 'IMG') {
+    var parent = evt.target.closest('.map__pins');
+    var button = evt.target.closest('.map__pin');
+
+    renderPinsToMap(data[getIndexOfElement(parent, button)]);
+  }
+});
