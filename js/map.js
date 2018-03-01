@@ -131,7 +131,7 @@ var renderMapCard = function (index) {
   pictutesItem.src = offerData.offer.photos;
 };
 
-renderMapCard(5);
+//renderMapCard(5);
 
 var mainMap = document.querySelector('.map');
 mainMap.appendChild(clonedMapCard);
@@ -176,6 +176,6 @@ pinsElement.addEventListener('click', function (evt) {
     var parent = evt.target.closest('.map__pins');
     var button = evt.target.closest('.map__pin');
 
-    renderPinsToMap(data[getIndexOfElement(parent, button)]);
+    renderMapCard(data[getIndexOfElement(parent, button)]);
   }
 });
