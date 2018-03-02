@@ -47,14 +47,14 @@ var generateObject = function (i) {
       title: titles[i],
       address: locationX + ', ' + locationY,
       price: getRandomValue(MIN_PRICE, MAX_PRICE),
-      type: typeOfRooms[getRandomValue(0, typeOfRooms.length)],
+      type: typeOfRooms[getRandomValue(0, typeOfRooms.length - 1)],
       rooms: getRandomValue(MIN_ROOMS, MAX_ROOMS),
       guests: getRandomValue(1, 5),
-      checkin: checkin[getRandomValue(0, checkin.length)],
-      checkout: checkout[getRandomValue(0, checkout.length)],
-      feature: features[getRandomValue(0, features.length)],
+      checkin: checkin[getRandomValue(0, checkin.length - 1)],
+      checkout: checkout[getRandomValue(0, checkout.length - 1)],
+      feature: features[getRandomValue(0, features.length - 1)],
       description: '',
-      photos: photos[getRandomValue(0, photos.length)]
+      photos: photos[getRandomValue(0, photos.length - 1)]
 
     },
     location: {
@@ -81,6 +81,7 @@ var pinsElement = document.querySelector('.map__pins');
 var mapCard = map.querySelector('.map__card');
 var clonedMapCard = mapCard.cloneNode(true);
 
+
 var renderPinsToMap = function () {
   var pinsFragment = document.createDocumentFragment();
   for (var i = 0; i < data.length - 1; i++) {
@@ -95,6 +96,7 @@ var renderPinsToMap = function () {
 };
 
 var renderMapCard = function (index) {
+  index = index - 1;
   var popup = map.querySelector('.popup');
   if (popup) {
     map.removeChild(popup);
@@ -129,6 +131,9 @@ var renderMapCard = function (index) {
   var pictures = clonedMapCard.querySelector('.popup__pictures');
   var pictutesItem = pictures.querySelector('img');
   pictutesItem.src = offerData.offer.photos;
+
+  var avatars = clonedMapCard.querySelector('.popup__avatar');
+  avatars.src = offerData.author.avatar;
 };
 
 //renderMapCard(5);
@@ -172,10 +177,12 @@ var getIndexOfElement = function (elements, element) {
 
 pinsElement.addEventListener('click', function (evt) {
   var target = evt.target;
+  var popup = map.querySelector('.popup');
+
   if (target.tagName === 'IMG') {
     var parent = evt.target.closest('.map__pins');
     var button = evt.target.closest('.map__pin');
 
-    renderMapCard(data[getIndexOfElement(parent, button)]);
+    renderMapCard(getIndexOfElement(parent.children, button));
   }
 });
