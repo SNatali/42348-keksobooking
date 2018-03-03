@@ -96,11 +96,8 @@ var renderPinsToMap = function () {
 };
 
 var renderMapCard = function (index) {
-  index = index - 1;
-  var popup = map.querySelector('.popup');
-  if (popup) {
-    map.removeChild(popup);
-  }
+  index = index - 2;
+  // map
   var offerData = data[index];
 
   var title = clonedMapCard.querySelector('h3');
@@ -135,11 +132,6 @@ var renderMapCard = function (index) {
   var avatars = clonedMapCard.querySelector('.popup__avatar');
   avatars.src = offerData.author.avatar;
 };
-
-//renderMapCard(5);
-
-var mainMap = document.querySelector('.map');
-mainMap.appendChild(clonedMapCard);
 
 
 //  вернуть страницу в исходное состояние
@@ -177,11 +169,11 @@ var getIndexOfElement = function (elements, element) {
 
 pinsElement.addEventListener('click', function (evt) {
   var target = evt.target;
-  var popup = map.querySelector('.popup');
-
-  if (target.tagName === 'IMG') {
+  if (target.className !== 'map__pin--main') {
     var parent = evt.target.closest('.map__pins');
     var button = evt.target.closest('.map__pin');
+    var mainMap = document.querySelector('.map');
+    mainMap.appendChild(clonedMapCard);
 
     renderMapCard(getIndexOfElement(parent.children, button));
   }
